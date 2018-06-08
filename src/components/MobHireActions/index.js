@@ -19,7 +19,7 @@ import {
     canBuyGrot,
 } from '../../helpers';
 
-const MobHireActions =  ({
+const MobHireActions = ({
     buyNob,
     buyBoy,
     buySpanner,

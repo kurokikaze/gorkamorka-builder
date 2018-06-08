@@ -9,6 +9,8 @@ import {
 
 import MobHireActions from '../MobHireActions';
 import VehicleBuyActions from '../VehicleBuyActions';
+import Unit from '../Unit';
+import Vehicle from '../Vehicle';
 
 import {
     canBuyBuggy,
@@ -32,11 +34,11 @@ const Builder =  ({
     <div>
         <h4>Моб</h4>
         <ul>
-        {units.map((unit, i) => (<li key={i}>{unit}</li>))}
+        {units.map(id => <Unit id={id} />)}
         </ul>
         <h4>Техника</h4>
         <ul>
-        {vehicles.map((vehicle, i) => (<li key={i}>{vehicle}</li>))}
+        {vehicles.map(id => <Vehicle id={id} />)}
         </ul>
     </div>
     <div>
@@ -58,8 +60,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 const mapStateToProps = state => ({
     teef: state.teef,
-    units: state.units,
-    vehicles: state.vehicles,
+    units: state.units.map(unit => unit.id),
+    vehicles: state.vehicles.map(vehicle => vehicle.id),
     items: state.items,
     canBuyBuggy: canBuyBuggy(state),
     canBuyTrak: canBuyTrak(state),

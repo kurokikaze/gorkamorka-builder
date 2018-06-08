@@ -17,14 +17,20 @@ export const BUY_SLAVER = 'BUY/UNITS/SLAVER';
 export const BUY_YOOF = 'BUY/UNITS/YOOF';
 export const BUY_GROT = 'BUY/UNITS/GROT';
 
-export const BUY_BUGGY = 'BUY/UNITS/BUGGY';
-export const BUY_TRAK = 'BUY/UNITS/TRAK';
-export const BUY_BIKE = 'BUY/UNITS/BIKE';
+export const DELETE_UNIT = 'DELETE/UNITS/UNIT';
+
+export const BUY_BUGGY = 'BUY/VEHICLES/BUGGY';
+export const BUY_TRAK = 'BUY/VEHICLES/TRAK';
+export const BUY_BIKE = 'BUY/VEHICLES/BIKE';
+
+export const DELETE_VEHICLE = 'DELETE/VEHICLES/VEHICLE';
 
 export const ERROR_BUYING = 'ERROR/BUY';
+export const ERROR_DELETING = 'ERROR/DELETE';
 
 export const NOT_ENOUGH_TEEF = 'NOT_ENOUGH_TEEF';
 export const NOT_ENOUGH_SLOTS = 'NOT_ENOUGH_SLOTS';
+export const ID_NOT_FOUND = 'ID_NOT_FOUND';
 
 export const INCREMENT = 'counter/INCREMENT'
 export const DECREMENT_REQUESTED = 'counter/DECREMENT_REQUESTED'
@@ -83,6 +89,28 @@ export const buyYoof = () => {
             dispatch({type: BUY_YOOF});
         } else {
             dispatch({type: ERROR_BUYING, error: NOT_ENOUGH_TEEF});
+        }
+    }
+}
+
+export const deleteUnit = (id) => {
+    return (dispatch, getState) => {
+        const unit = getState().units.find(u => u.id === id);
+        if (unit) {
+            dispatch({type: DELETE_UNIT, id, unitType: unit.type});
+        } else {
+            dispatch({type: ERROR_DELETING, error: ID_NOT_FOUND});
+        }
+    }
+}
+
+export const deleteVehicle = (id) => {
+    return (dispatch, getState) => {
+        const vehicle = getState().vehicles.find(v => v.id === id);
+        if (vehicle) {
+            dispatch({type: DELETE_VEHICLE, id, vehicleType: vehicle.type});
+        } else {
+            dispatch({type: ERROR_DELETING, error: ID_NOT_FOUND});
         }
     }
 }

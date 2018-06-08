@@ -7,7 +7,9 @@ import {
     BUY_GROT,
     BUY_BUGGY,
     BUY_TRAK,
-    BUY_BIKE
+    BUY_BIKE,
+    DELETE_UNIT,
+    DELETE_VEHICLE,
 } from '../actions'
 
 import {
@@ -21,10 +23,55 @@ import {
     trakCost,
     bikeCost,
     startingTeef,
+    unitType,
+    vehicleType
 } from '../const';
 
 const teefReducer = (teef = startingTeef, action) => {
     switch (action.type) {
+        case DELETE_UNIT:
+            var unitRefund;
+            switch (action.unitType) {
+                case unitType.nob:
+                    unitRefund = nobCost;
+                    break;
+                case unitType.boy:
+                    unitRefund = boyCost;
+                    break;
+                case unitType.spanner:
+                    unitRefund = spannerCost;
+                    break;
+                case unitType.slaver:
+                    unitRefund = slaverCost;
+                    break;
+                case unitType.yoof:
+                    unitRefund = yoofCost;
+                    break;
+                case unitType.grot:
+                    unitRefund = grotCost;
+                    break;
+                default:
+                    unitRefund = 0;
+                    break;
+            }
+            return teef + unitRefund;
+        case DELETE_VEHICLE:
+            var vehicleRefund;
+            switch (action.vehicleType) {
+                case vehicleType.buggy:
+                    vehicleRefund = buggyCost;
+                    break;
+                case vehicleType.trak:
+                    vehicleRefund = trakCost;
+                    break;
+                case vehicleType.bike:
+                    vehicleRefund = bikeCost;
+                    break;
+                default:
+                    vehicleRefund = 0;
+                    break;
+            }
+            return teef + vehicleRefund;
         case BUY_NOB:
             return teef - nobCost;
         case BUY_BOY:
