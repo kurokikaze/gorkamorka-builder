@@ -4,6 +4,7 @@ import {
     BUY_BIKE,
     DELETE_VEHICLE,
     RENAME_VEHICLE,
+    ASSIGN_DRIVER,
 } from '../actions';
 
 import {vehicleType, getVehicleNameByType} from '../const';
@@ -30,6 +31,8 @@ const vehiclesReducer = (vehicles = [], action) => {
                 type: vehicleType.bike,
                 id: getNextId(vehicles),
             }];
+        case ASSIGN_DRIVER:
+            return vehicles.map(vehicle => vehicle.id === action.vehicleId ? {...vehicle, driver: action.unitId} : vehicle);
         case RENAME_VEHICLE:
             return vehicles.map(v => v.id === action.id ? getRenamedVehicle(v, action.name) : v);
         case DELETE_VEHICLE:

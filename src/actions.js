@@ -25,12 +25,15 @@ export const RENAME_VEHICLE = 'RENAME/VEHICLES/VEHICLE';
 export const BUY_BUGGY = 'BUY/VEHICLES/BUGGY';
 export const BUY_TRAK = 'BUY/VEHICLES/TRAK';
 export const BUY_BIKE = 'BUY/VEHICLES/BIKE';
+export const ASSIGN_DRIVER = 'ASSIGN/VEHICLES/DRIVER';
+export const ASSIGN_SHOOTER = 'ASSIGN/VEHICLES/SHOOTER';
 
 export const DELETE_VEHICLE = 'DELETE/VEHICLES/VEHICLE';
 
 export const ERROR_BUYING = 'ERROR/BUY';
 export const ERROR_DELETING = 'ERROR/DELETE';
 export const ERROR_RENAMING = 'ERROR/RENAME';
+export const ERROR_ASSIGNING = 'ERROR/ASSIGN';
 
 export const NOT_ENOUGH_TEEF = 'NOT_ENOUGH_TEEF';
 export const NOT_ENOUGH_SLOTS = 'NOT_ENOUGH_SLOTS';
@@ -181,6 +184,19 @@ export const buyBike = () => {
             dispatch({type: BUY_BIKE});
         } else {
             dispatch({type: ERROR_BUYING, error: NOT_ENOUGH_TEEF});
+        }
+    }
+}
+
+export const assignDriver = (vehicleId, unitId) => {
+    return (dispatch, getState) => {
+        console.log('assignDriver', vehicleId, JSON.stringify(unitId));
+        const vehicle = getState().vehicles.find(v => v.id === vehicleId);
+        const unit = getState().units.find(v => v.id === unitId);
+        if (vehicle && unit) {
+            dispatch({type: ASSIGN_DRIVER, vehicleId, unitId});
+        } else {
+            dispatch({type: ERROR_ASSIGNING, error: ID_NOT_FOUND});
         }
     }
 }

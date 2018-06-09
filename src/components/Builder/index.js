@@ -35,11 +35,11 @@ const Builder =  ({
         <div>
             <h4><FormattedMessage id='app.mob' /></h4>
             <ul>
-            {units.map(id => <Unit id={id} />)}
+            {units.map(id => <Unit id={id} key={`unit_${id}`} />)}
             </ul>
             <h4><FormattedMessage id='app.vehicles' /></h4>
             <ul>
-            {vehicles.map(id => <Vehicle id={id} />)}
+            {vehicles.map(id => <Vehicle id={id} key={`vehicle_${id}`} />)}
             </ul>
         </div>
         <div>

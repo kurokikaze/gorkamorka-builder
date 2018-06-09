@@ -16,8 +16,10 @@ import {
     vehicleType
 } from './const';
 
+export const findOrks = units => units.filter(unit => orkTypes.includes(unit.type))
+
 const countYoof = units => units.filter(unit => unit.type === unitType.yoof).length;
-const countOrks = units => units.filter(unit => orkTypes.includes(unit.type)).length;
+const countOrks = units => findOrks(units).length;
 const countGrots = units => units.filter(unit => unit.type === unitType.grot).length;
 const countSpanners = units => units.filter(unit => unit.type === unitType.spanner).length;
 
@@ -58,3 +60,9 @@ export const canBuyBike = ({teef, units, vehicles}) => (
     countNeededSpanners([...vehicles, {type: vehicleType.bike}]) <= countSpanners(units) && // Достаточно спаннеров чтобы обслуживать
     vehicles.length < units.length // Есть кому управлять
 );
+
+export const filterAvailableDrivers = (state, currentDriver) => {
+    const takenDrivers = state.vehicles.map(({driver}) => driver !== currentDriver ? driver : null).filter(Boolean);
+    console.log('Taken drivers', JSON.stringify(takenDrivers));
+    return findOrks(state.units).filter(u => !takenDrivers.includes(u.id));
+}
