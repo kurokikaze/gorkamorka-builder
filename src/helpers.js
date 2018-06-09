@@ -32,15 +32,15 @@ export const canBuyNob = ({teef, units}) => (teef >= nobCost && !units.find(unit
 export const canBuyBoy = createSimpleCostCheck(boyCost);
 export const canBuySpanner = createSimpleCostCheck(spannerCost);
 export const canBuySlaver = createSimpleCostCheck(slaverCost);
-export const canBuyGrot = ({teef, units}) => {
-    console.log('Orks, grots:', countOrks(units), countGrots(units));
-    return (
-        teef >= grotCost && // Достаточно зубов
-        units.find(u => u.type === unitType.slaver) && // Есть хотя бы один Слейвер
-        (countOrks(units) > countGrots(units)) // Орков больше чем гротов
-    )
-};
-export const canBuyYoof = ({teef, units}) => (teef >= yoofCost && (Math.ceil(countOrks(units) / 2) > countYoof(units)));
+export const canBuyGrot = ({teef, units}) => (
+    teef >= grotCost && // Достаточно зубов
+    units.find(u => u.type === unitType.slaver) && // Есть хотя бы один Слейвер
+    (countOrks(units) > countGrots(units)) // Орков больше чем гротов
+);
+export const canBuyYoof = ({teef, units}) => (
+    teef >= yoofCost && // Достаточно зубов
+    (Math.ceil(countOrks(units) / 2) > countYoof(units)) // Юффов может быть не больше половины от общего числа Орков
+);
 
 // Ограничители покупки техники
 export const canBuyBuggy = ({teef, units, vehicles}) => (

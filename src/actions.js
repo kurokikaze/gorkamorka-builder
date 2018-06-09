@@ -36,9 +36,7 @@ export const NOT_ENOUGH_TEEF = 'NOT_ENOUGH_TEEF';
 export const NOT_ENOUGH_SLOTS = 'NOT_ENOUGH_SLOTS';
 export const ID_NOT_FOUND = 'ID_NOT_FOUND';
 
-export const INCREMENT = 'counter/INCREMENT'
-export const DECREMENT_REQUESTED = 'counter/DECREMENT_REQUESTED'
-export const DECREMENT = 'counter/DECREMENT'
+export const SWITCH_LANGUAGE = 'APP/SWITCH_LANGUAGE';
 
 // Найм орков и покупка гротов
 
@@ -187,3 +185,7 @@ export const buyBike = () => {
     }
 }
 
+// Настройка
+
+export const switchLanguage = language =>
+    dispatch => dispatch({type: SWITCH_LANGUAGE, language});

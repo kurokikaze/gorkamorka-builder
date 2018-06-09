@@ -6,7 +6,7 @@ const defaultState = {
     currentName: false,
 }
 
-class EditableName extends React.Component {
+class UnitSelector extends React.Component {
     constructor(props) {
         super(props)
         this.state = defaultState;
@@ -45,12 +45,10 @@ class EditableName extends React.Component {
     }
 
     render() {
-        return (
-            <IntlProvider locale={this.props.language}>
-                {this.state.edited ? this.renderEdit() : this.renderView()}
-            </IntlProvider>
-        );
+        return (<IntlProvider locale={this.props.language}>
+            {this.state.edited ? this.renderEdit() : this.renderView()}
+        </IntlProvider>);
     }
 }
 
-export default EditableName;
+export default UnitSelector;

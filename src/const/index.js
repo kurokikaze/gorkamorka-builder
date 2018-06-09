@@ -56,3 +56,5 @@ export const getVehicleNameByType = type => {
 export const bikesPerSpanner = 3;
 
 export const startingTeef = 100;
+
+export const defaultLanguage = 'ru';
