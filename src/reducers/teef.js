@@ -10,7 +10,7 @@ import {
     BUY_BIKE,
     DELETE_UNIT,
     DELETE_VEHICLE,
-} from '../actions'
+} from '../actions';
 
 import {
     nobCost,
@@ -22,6 +22,9 @@ import {
     buggyCost,
     trakCost,
     bikeCost,
+} from '../const/costs';
+
+import {
     startingTeef,
     unitType,
     vehicleType

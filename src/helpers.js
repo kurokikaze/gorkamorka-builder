@@ -7,7 +7,9 @@ import {
     grotCost,
     buggyCost,
     trakCost,
-    bikeCost,
+    bikeCost    
+} from './const/costs';
+import {
     orkTypes,
     bikesPerSpanner,
     unitType,

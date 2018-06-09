@@ -8,7 +8,7 @@ import {
     buggyCost,
     trakCost,
     bikeCost,
-} from './const';
+} from './const/costs';
 
 export const BUY_NOB = 'BUY/UNITS/NOB';
 export const BUY_BOY = 'BUY/UNITS/BOY';
