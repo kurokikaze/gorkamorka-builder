@@ -1,31 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import EditableName from '../EditableName'
+import {getUnitNameByType} from '../../const';
 import {
     deleteUnit,
+    renameUnit,
 } from '../../actions';
-
-// import {
-//     canBuyNob,
-//     canBuyYoof,
-//     canBuyBoy,
-//     canBuySpanner,
-//     canBuySlaver,
-//     canBuyGrot,
-// } from '../../helpers';
 
 const Unit = ({
     unit,
-    deleteUnit
+    deleteUnit,
+    renameUnit
 }) => (
     <li key={`unit_${unit.id}`}>
-        <span>{unit.name}</span>
+        <EditableName name={unit.name} onSave={name => renameUnit(unit.id, name)} />
+        {(getUnitNameByType(unit.type) !== unit.name) && <div className="unitType">{getUnitNameByType(unit.type)}</div>}
         <button onClick={() => deleteUnit(unit.id)}>Удалить</button>
     </li>
 )
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     deleteUnit,
+    renameUnit,
   }, dispatch)
 
 const mapStateToProps = (state, props) => ({

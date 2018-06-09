@@ -6,6 +6,7 @@ import {
     BUY_YOOF,
     BUY_GROT,
     DELETE_UNIT,
+    RENAME_UNIT,
 } from '../actions';
 import {unitType} from '../const';
 
@@ -49,11 +50,15 @@ const unitsReducer = (units = [], action) => {
                 type: unitType.grot,
                 id: getNextId(units),
             }];
+        case RENAME_UNIT:
+            return units.map(u => u.id === action.id ? getRenamedUnit(u, action.name) : u);
         case DELETE_UNIT:
             return units.filter(unit => unit.id !== action.id);
         default:
             return units;
     }
 }
+
+const getRenamedUnit = (unit, name) => ({...unit, name})
 
 export default unitsReducer;

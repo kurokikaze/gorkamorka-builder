@@ -19,6 +19,9 @@ export const BUY_GROT = 'BUY/UNITS/GROT';
 
 export const DELETE_UNIT = 'DELETE/UNITS/UNIT';
 
+export const RENAME_UNIT = 'RENAME/UNITS/UNIT';
+export const RENAME_VEHICLE = 'RENAME/VEHICLES/VEHICLE';
+
 export const BUY_BUGGY = 'BUY/VEHICLES/BUGGY';
 export const BUY_TRAK = 'BUY/VEHICLES/TRAK';
 export const BUY_BIKE = 'BUY/VEHICLES/BIKE';
@@ -27,6 +30,7 @@ export const DELETE_VEHICLE = 'DELETE/VEHICLES/VEHICLE';
 
 export const ERROR_BUYING = 'ERROR/BUY';
 export const ERROR_DELETING = 'ERROR/DELETE';
+export const ERROR_RENAMING = 'ERROR/RENAME';
 
 export const NOT_ENOUGH_TEEF = 'NOT_ENOUGH_TEEF';
 export const NOT_ENOUGH_SLOTS = 'NOT_ENOUGH_SLOTS';
@@ -111,6 +115,28 @@ export const deleteVehicle = (id) => {
             dispatch({type: DELETE_VEHICLE, id, vehicleType: vehicle.type});
         } else {
             dispatch({type: ERROR_DELETING, error: ID_NOT_FOUND});
+        }
+    }
+}
+
+export const renameUnit = (id, name) => {
+    return (dispatch, getState) => {
+        const unit = getState().units.find(u => u.id === id);
+        if (unit) {
+            dispatch({type: RENAME_UNIT, id, name});
+        } else {
+            dispatch({type: ERROR_RENAMING, error: ID_NOT_FOUND});
+        }
+    }
+}
+
+export const renameVehicle = (id, name) => {
+    return (dispatch, getState) => {
+        const vehicle = getState().vehicles.find(v => v.id === id);
+        if (vehicle) {
+            dispatch({type: RENAME_VEHICLE, id, name});
+        } else {
+            dispatch({type: ERROR_RENAMING, error: ID_NOT_FOUND});
         }
     }
 }

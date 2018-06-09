@@ -28,7 +28,37 @@ export const orkTypes = [
     unitType.yoof,
 ];
 
-export const orkz = ['Ноб', 'Бой', 'Слейвер', 'Спаннер', 'Юфф'];
+export const getUnitNameByType = type => {
+    switch (type) {
+        case unitType.nob:
+            return 'Ноб';
+        case unitType.boy:
+            return 'Бой';
+        case unitType.spanner:
+            return 'Спаннер';
+        case unitType.slaver:
+            return 'Слейвер';
+        case unitType.yoof:
+            return 'Юфф';
+        case unitType.grot:
+            return 'Грот';
+        default:
+            return 'Неизвестный тип';
+    }
+}
+
+export const getVehicleNameByType = type => {
+    switch (type) {
+        case vehicleType.buggy:
+            return 'Багги';
+        case vehicleType.trak:
+            return 'Трахтор';
+        case vehicleType.bike:
+            return 'Байк';
+        default:
+            return 'Неизвестный тип';
+    }
+}
 
 export const bikesPerSpanner = 3;
 
