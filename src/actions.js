@@ -10,6 +10,10 @@ import {
     bikeCost,
 } from './const/costs';
 
+import {
+    bigGunz,
+} from './const/bigGunz';
+
 export const BUY_NOB = 'BUY/UNITS/NOB';
 export const BUY_BOY = 'BUY/UNITS/BOY';
 export const BUY_SPANNER = 'BUY/UNITS/SPANNER';
@@ -25,6 +29,8 @@ export const RENAME_VEHICLE = 'RENAME/VEHICLES/VEHICLE';
 export const BUY_BUGGY = 'BUY/VEHICLES/BUGGY';
 export const BUY_TRAK = 'BUY/VEHICLES/TRAK';
 export const BUY_BIKE = 'BUY/VEHICLES/BIKE';
+export const BUY_VEHICLE_WEAPON = 'BUY/WEAPONS/VEHICLE';
+
 export const ASSIGN_DRIVER = 'ASSIGN/VEHICLES/DRIVER';
 export const ASSIGN_SHOOTER = 'ASSIGN/VEHICLES/SHOOTER';
 
@@ -112,8 +118,12 @@ export const deleteUnit = (id) => {
 export const deleteVehicle = (id) => {
     return (dispatch, getState) => {
         const vehicle = getState().vehicles.find(v => v.id === id);
+        var addTeef = 0;
+        if (vehicle.weapon) {
+            addTeef = bigGunz.find(g => g.type === vehicle.weapon).cost;
+        }
         if (vehicle) {
-            dispatch({type: DELETE_VEHICLE, id, vehicleType: vehicle.type});
+            dispatch({type: DELETE_VEHICLE, id, vehicleType: vehicle.type, addTeef});
         } else {
             dispatch({type: ERROR_DELETING, error: ID_NOT_FOUND});
         }
@@ -188,9 +198,25 @@ export const buyBike = () => {
     }
 }
 
+export const buyVehicleWeapon = (vehicleId, weaponType) => {
+    return (dispatch, getState) => {
+        const vehicle = getState().vehicles.find(v => v.id === vehicleId);
+        var oldGunCost = 0;
+        if (vehicle.weapon) {
+            oldGunCost = bigGunz.find(({type}) => type === vehicle.weapon).cost;
+        }
+        const bigGun = bigGunz.find(({type}) => type === weaponType);
+        if (vehicle && bigGun) {
+            console.log(`Buying new weapon: ${weaponType}, +${oldGunCost}, -${bigGun.cost}`);
+            dispatch({type: BUY_VEHICLE_WEAPON, vehicleId, weaponType, cost: bigGun.cost, oldGunCost});
+        } else {
+            dispatch({type: ERROR_ASSIGNING, error: ID_NOT_FOUND});
+        }
+    }
+}
+
 export const assignDriver = (vehicleId, unitId) => {
     return (dispatch, getState) => {
-        console.log('assignDriver', vehicleId, JSON.stringify(unitId));
         const vehicle = getState().vehicles.find(v => v.id === vehicleId);
         const unit = getState().units.find(v => v.id === unitId);
         if (vehicle && unit) {

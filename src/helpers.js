@@ -61,8 +61,11 @@ export const canBuyBike = ({teef, units, vehicles}) => (
     vehicles.length < units.length // Есть кому управлять
 );
 
-export const filterAvailableDrivers = (state, currentDriver) => {
-    const takenDrivers = state.vehicles.map(({driver}) => driver !== currentDriver ? driver : null).filter(Boolean);
-    console.log('Taken drivers', JSON.stringify(takenDrivers));
-    return findOrks(state.units).filter(u => !takenDrivers.includes(u.id));
+export const filterAvailableOrks = (state, currentOrk) => {
+    const takenDrivers = state.vehicles.map(({driver}) => driver !== currentOrk ? driver : null).filter(Boolean);
+    const takenGunners = state.vehicles.map(({gunner}) => gunner !== currentOrk ? gunner : null).filter(Boolean);
+    
+    const takenOrks = [...takenDrivers, ...takenGunners];
+
+    return findOrks(state.units).filter(u => !takenOrks.includes(u.id));
 }

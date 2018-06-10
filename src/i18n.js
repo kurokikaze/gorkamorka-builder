@@ -25,7 +25,11 @@ const messages = {
             few {{teef} teef left}
             many {{teef} teef left}
             other {{teef} teef left}
-        }`
+        }`,
+        // Лейблы
+        'vehicle.driver': 'Driver',
+        'vehicle.weapon': 'Weapon',
+        'vehicle.gunner': 'Gunner',
     },
     ru: {
         'app.creation': 'Создание',
@@ -51,7 +55,11 @@ const messages = {
             one {{teef} зуб остался}
             few {{teef} зуба осталось}
             many {{teef} зубов осталось}
-        }`
+        }`,
+        // Лейблы
+        'vehicle.driver': 'Водила',
+        'vehicle.weapon': 'Оружие',
+        'vehicle.gunner': 'Стрелок',
     }
 };
 

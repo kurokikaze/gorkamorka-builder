@@ -10,6 +10,7 @@ import {
     BUY_BIKE,
     DELETE_UNIT,
     DELETE_VEHICLE,
+    BUY_VEHICLE_WEAPON,
 } from '../actions';
 
 import {
@@ -74,7 +75,11 @@ const teefReducer = (teef = startingTeef, action) => {
                     vehicleRefund = 0;
                     break;
             }
+            vehicleRefund += action.addTeef;
+            
             return teef + vehicleRefund;
+        case BUY_VEHICLE_WEAPON:
+            return teef + action.oldGunCost - action.cost;
         case BUY_NOB:
             return teef - nobCost;
         case BUY_BOY:
