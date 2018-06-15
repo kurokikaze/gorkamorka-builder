@@ -69,3 +69,20 @@ export const filterAvailableOrks = (state, currentOrk) => {
 
     return findOrks(state.units).filter(u => !takenOrks.includes(u.id));
 }
+
+/**
+        'vehicleType.buggy': 'Багги',
+        'vehicleType.trak': 'Трахтор',
+        'vehicleType.bike': 'Байк',
+
+ */
+export const getVehicleTypeName = type => {
+    switch (type) {
+        case vehicleType.buggy:
+            return 'vehicleType.buggy';
+        case vehicleType.trak:
+            return 'vehicleType.trak';
+        case vehicleType.bike:
+            return 'vehicleType.bike';
+    }
+}

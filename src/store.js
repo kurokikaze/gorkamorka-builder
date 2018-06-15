@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import rootReducer from './modules'
 import { composeWithDevTools } from 'redux-devtools-extension'
-
+import logger from 'redux-logger'
 const initialState = {
     teef: 100,
     units: [],
@@ -25,6 +25,7 @@ if (process.env.NODE_ENV === 'development') {
 
 const composedEnhancers = compose(
   applyMiddleware(...middleware),
+  applyMiddleware(logger),
   ...enhancers
 )
 

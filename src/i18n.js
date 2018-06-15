@@ -15,6 +15,8 @@ const messages = {
         'app.buySlaver': 'Buy Slaver',
         'app.buyYoof': 'Buy a Yoof',
         'app.buyGrot': 'Buy a Grot',
+        'app.deleteVehicle': 'Sell the vehicle',
+        'app.deleteVehicleWeapon': 'Sell the vehicle weapon',
         // Покупка техники
         'app.buyBuggy': 'Buy a buggy',
         'app.buyTrak': 'Buy a trak',
@@ -43,6 +45,10 @@ const messages = {
         'bigGun.spearGun': 'Spear Gun',
         'bigGun.scorcha': 'Scorcha',
         'weaponType.twinLinked': 'Twin-linked',
+        // Тачки
+        'vehicleType.buggy': 'Buggy',
+        'vehicleType.trak': 'Trak',
+        'vehicleType.bike': 'Bike',
     },
     ru: {
         'app.creation': 'Создание',
@@ -63,6 +69,8 @@ const messages = {
         'app.buyBuggy': 'Купить багги',
         'app.buyTrak': 'Купить трахтор',
         'app.buyBike': 'Купить байк',
+        'app.deleteVehicle': 'Продать машину',
+        'app.deleteVehicleWeapon': 'Продать оружие с машины',
         'app.teefLeft' : `{teef, plural,
             =0 {Не осталось зубов}
             one {{teef} зуб остался}
@@ -86,6 +94,11 @@ const messages = {
         'bigGun.spearGun': 'Копьемёт',
         'bigGun.scorcha': 'Поджигало',
         'weaponType.twinLinked': 'Сдвоен.',
+        'weaponType.noWeapon': 'Нет оружия',
+        // Тачки
+        'vehicleType.buggy': 'Багги',
+        'vehicleType.trak': 'Трахтор',
+        'vehicleType.bike': 'Байк',
     }
 };
 

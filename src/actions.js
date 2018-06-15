@@ -30,9 +30,10 @@ export const BUY_TRAK = 'BUY/VEHICLES/TRAK';
 export const BUY_BIKE = 'BUY/VEHICLES/BIKE';
 export const BUY_VEHICLE_WEAPON = 'BUY/WEAPONS/VEHICLE';
 export const BUY_VEHICLE_LINKED_WEAPON = 'BUY/LINKEDWEAPON/VEHICLE';
+export const SELL_VEHICLE_WEAPON = 'SELL/WEAPONS/VEHICLE';
 
 export const ASSIGN_DRIVER = 'ASSIGN/VEHICLES/DRIVER';
-export const ASSIGN_SHOOTER = 'ASSIGN/VEHICLES/SHOOTER';
+export const ASSIGN_GUNNER = 'ASSIGN/VEHICLES/GUNNER';
 
 export const DELETE_VEHICLE = 'DELETE/VEHICLES/VEHICLE';
 
@@ -126,9 +127,21 @@ export const deleteUnit = (id) => {
 export const deleteVehicle = (id) => {
     return (dispatch, getState) => {
         const vehicle = getState().vehicles.find(v => v.id === id);
-        var addTeef = getVehicleWeaponCost(vehicle);
         if (vehicle) {
+            const addTeef = getVehicleWeaponCost(vehicle);
             dispatch({type: DELETE_VEHICLE, id, vehicleType: vehicle.type, addTeef});
+        } else {
+            dispatch({type: ERROR_DELETING, error: ID_NOT_FOUND});
+        }
+    }
+}
+
+export const sellVehicleWeapon = vehicleId => {
+    return (dispatch, getState) => {
+        const vehicle = getState().vehicles.find(v => v.id === vehicleId);
+        if (vehicle) {
+            const cost = getVehicleWeaponCost(vehicle);
+            dispatch({type: SELL_VEHICLE_WEAPON, vehicleId, cost});
         } else {
             dispatch({type: ERROR_DELETING, error: ID_NOT_FOUND});
         }
@@ -235,6 +248,18 @@ export const assignDriver = (vehicleId, unitId) => {
         const unit = getState().units.find(v => v.id === unitId);
         if (vehicle && unit) {
             dispatch({type: ASSIGN_DRIVER, vehicleId, unitId});
+        } else {
+            dispatch({type: ERROR_ASSIGNING, error: ID_NOT_FOUND});
+        }
+    }
+}
+
+export const assignGunner = (vehicleId, unitId) => {
+    return (dispatch, getState) => {
+        const vehicle = getState().vehicles.find(v => v.id === vehicleId);
+        const unit = getState().units.find(v => v.id === unitId);
+        if (vehicle && unit) {
+            dispatch({type: ASSIGN_GUNNER, vehicleId, unitId});
         } else {
             dispatch({type: ERROR_ASSIGNING, error: ID_NOT_FOUND});
         }

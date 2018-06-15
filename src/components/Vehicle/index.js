@@ -5,7 +5,7 @@ import { IntlProvider, FormattedMessage } from 'react-intl';
 import Select from 'react-select'
 
 import EditableName from '../EditableName'
-import { filterAvailableOrks } from '../../helpers'
+import { filterAvailableOrks, getVehicleTypeName } from '../../helpers'
 import { getVehicleNameByType, vehicleType } from '../../const'
 import { bigGunz } from '../../const/bigGunz'
 import { gunz } from '../../const/gunz'
@@ -14,8 +14,10 @@ import {
     deleteVehicle,
     renameVehicle,
     assignDriver,
+    assignGunner,
     buyVehicleWeapon,
     buyVehicleLinkedWeapon,
+    sellVehicleWeapon,
 } from '../../actions';
 
 const orkToOption = ork => ({ value: ork.id, label: ork.name});
@@ -24,6 +26,12 @@ const bigGunToOption = bigGun => ({
     value: bigGun.type,
     label: <span><FormattedMessage id={bigGun.name} /> <em>[ {bigGun.cost} ]</em></span>,
 });
+
+const noWeaponOption = {
+    twinLinked: true,
+    value: 'noWeapon',
+    label: <FormattedMessage id='weaponType.noWeapon' />
+}
 
 const gunToTwinLinkedOption = gun => ({
     twinLinked: true,
@@ -80,6 +88,7 @@ const Vehicle = ({
     assignDriver,
     buyVehicleWeapon,
     buyVehicleLinkedWeapon,
+    sellVehicleWeapon,
 }) => (
     <IntlProvider locale={language}>
         <li key={`vehicle_${vehicle.id}`}>
@@ -88,43 +97,61 @@ const Vehicle = ({
                 onSave={name => renameVehicle(vehicle.id, name)}
                 language={language}
             />
-            {(getVehicleNameByType(vehicle.type) !== vehicle.name) && <div className="unitType">{getVehicleNameByType(vehicle.type)}</div>}
+            {(getVehicleNameByType(vehicle.type) !== vehicle.name) && <div className="vehicleType"><FormattedMessage id={getVehicleTypeName(vehicle.type)} /></div>}
             <div className="driver">
                 <label htmlFor={`driver_${vehicle.id}`}><FormattedMessage id='vehicle.driver' /></label>
                 <Select
                     id={`driver_${vehicle.id}`}
                     options={availableDrivers}
-                    onChange={({value}) => assignDriver(vehicle.id, value)} value={availableDrivers.find(o => o.value === vehicle.driver)}
+                    onChange={({value}) => assignDriver(vehicle.id, value)}
                     searchable={false}
                     styles={driverSelectStyles}
+                    value={availableDrivers.find(o => o.value === vehicle.driver)}
                 />
             </div>
+            {(vehicle.type === vehicleType.bike) && <div className="weapon">
+                <label htmlFor={`weapon_${vehicle.id}`}><FormattedMessage id='vehicle.weapon' /></label>
+                <Select
+                    id={`weapon_${vehicle.id}`}
+                    onChange={({value}) => buyVehicleLinkedWeapon(vehicle.id, value)}
+                    options={[...gunz.map(gunToTwinLinkedOption), noWeaponOption]}
+                    searchable={false}
+                    styles={driverSelectStyles}
+                    value={getVehicleWeaponOption(vehicle) || ''}
+                />
+                {vehicle.weapon && <button onClick={() => sellVehicleWeapon(vehicle.id)}><FormattedMessage id='app.deleteVehicleWeapon' /></button>}
+            </div>}
+
             {(vehicle.type !== vehicleType.bike) && <div className="weapon">
                 <label htmlFor={`weapon_${vehicle.id}`}><FormattedMessage id='vehicle.weapon' /></label>
                 <Select
                     id={`weapon_${vehicle.id}`}
+                    disabled={availableGunners.length === 0}
                     onChange={({twinLinked, value}) => twinLinked ? buyVehicleLinkedWeapon(vehicle.id, value) : buyVehicleWeapon(vehicle.id, value)}
                     options={[ ...bigGunz.map(bigGunToOption), ...gunz.map(gunToTwinLinkedOption)]}
                     searchable={false}
                     styles={driverSelectStyles}
-                    value={getVehicleWeaponOption(vehicle)}
+                    value={getVehicleWeaponOption(vehicle) || ''}
                 />
                 {vehicle.weapon && (
+                <div className="vehicleActions">
+                    <button onClick={() => sellVehicleWeapon(vehicle.id)}><FormattedMessage id='app.deleteVehicleWeapon' /></button>
                     <div className="gunner">
                         <label htmlFor={`gunner_${vehicle.id}`}><FormattedMessage id='vehicle.gunner' /></label>
                         <Select
                             id={`gunner_${vehicle.id}`}
-                            onChange={({value}) => assignDriver(vehicle.id, value)}
-                            options={availableDrivers}
+                            onChange={({value}) => assignGunner(vehicle.id, value)}
+                            options={availableGunners}
                             searchable={false}
                             styles={driverSelectStyles}
-                            value={availableDrivers.find(o => o.value === vehicle.gunner)}
+                            value={availableGunners.find(o => o.value === vehicle.gunner)}
                         />
                     </div>
+                </div>
                 )}
             </div>}
             <div className="vehicleActions">
-                <button onClick={() => deleteVehicle(vehicle.id)}><FormattedMessage id='app.delete' /></button>
+                <button onClick={() => deleteVehicle(vehicle.id)}><FormattedMessage id='app.deleteVehicle' /></button>
             </div>
         </li>
     </IntlProvider>
@@ -134,8 +161,10 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     deleteVehicle,
     renameVehicle,
     assignDriver,
+    assignGunner,
     buyVehicleWeapon,
     buyVehicleLinkedWeapon,
+    sellVehicleWeapon,
   }, dispatch)
 
 const mapStateToProps = (state, props) => {
