@@ -8,31 +8,31 @@ export const bigGunTypes = {
 
 export const bigGunz = [
     {
-        name: '’Eavy Shoota',
+        name: 'bigGun.eavyShoota',
         cost: 15,
         type: bigGunTypes.eavyShoota,
         comment: '',
     },
     {
-        name: 'Rokkit Launcher',
+        name: 'bigGun.rokkitLauncher',
         cost: 13,
         type: bigGunTypes.rokkitLauncher,
         comment: '',
     },
     {
-        name: 'Harpoon Gun',
+        name: 'bigGun.harpoonGun',
         cost: 7,
         type: bigGunTypes.harpoonGun,
         comment: '',
     },
     {
-        name: 'Spear Gun',
+        name: 'bigGun.spearGun',
         cost: 9,
         type: bigGunTypes.spearGun,
         comment: '',
     },
     {
-        name: 'Scorcha',
+        name: 'bigGun.scorcha',
         cost: 8,
         type: bigGunTypes.scorcha,
         comment: '',

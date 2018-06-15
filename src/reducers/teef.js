@@ -11,6 +11,7 @@ import {
     DELETE_UNIT,
     DELETE_VEHICLE,
     BUY_VEHICLE_WEAPON,
+    BUY_VEHICLE_LINKED_WEAPON,
 } from '../actions';
 
 import {
@@ -76,9 +77,11 @@ const teefReducer = (teef = startingTeef, action) => {
                     break;
             }
             vehicleRefund += action.addTeef;
-            
+
             return teef + vehicleRefund;
         case BUY_VEHICLE_WEAPON:
+            return teef + action.oldGunCost - action.cost;
+        case BUY_VEHICLE_LINKED_WEAPON:
             return teef + action.oldGunCost - action.cost;
         case BUY_NOB:
             return teef - nobCost;

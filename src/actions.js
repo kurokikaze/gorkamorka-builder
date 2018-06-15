@@ -10,9 +10,8 @@ import {
     bikeCost,
 } from './const/costs';
 
-import {
-    bigGunz,
-} from './const/bigGunz';
+import { bigGunz } from './const/bigGunz';
+import { gunz } from './const/gunz';
 
 export const BUY_NOB = 'BUY/UNITS/NOB';
 export const BUY_BOY = 'BUY/UNITS/BOY';
@@ -30,6 +29,7 @@ export const BUY_BUGGY = 'BUY/VEHICLES/BUGGY';
 export const BUY_TRAK = 'BUY/VEHICLES/TRAK';
 export const BUY_BIKE = 'BUY/VEHICLES/BIKE';
 export const BUY_VEHICLE_WEAPON = 'BUY/WEAPONS/VEHICLE';
+export const BUY_VEHICLE_LINKED_WEAPON = 'BUY/LINKEDWEAPON/VEHICLE';
 
 export const ASSIGN_DRIVER = 'ASSIGN/VEHICLES/DRIVER';
 export const ASSIGN_SHOOTER = 'ASSIGN/VEHICLES/SHOOTER';
@@ -46,6 +46,14 @@ export const NOT_ENOUGH_SLOTS = 'NOT_ENOUGH_SLOTS';
 export const ID_NOT_FOUND = 'ID_NOT_FOUND';
 
 export const SWITCH_LANGUAGE = 'APP/SWITCH_LANGUAGE';
+
+const getBigGunCost = gunType => bigGunz.find(gun => gun.type === gunType).cost;
+const getTwinLinkedGunCost = gunType => gunz.find(gun => gun.type === gunType).cost * 2;
+const getVehicleWeaponCost = vehicle =>
+    vehicle.weapon ? 
+        (
+            vehicle.linkedWeapon ? getTwinLinkedGunCost(vehicle.weapon) : getBigGunCost(vehicle.weapon)
+        ) : 0;
 
 // Найм орков и покупка гротов
 
@@ -118,10 +126,7 @@ export const deleteUnit = (id) => {
 export const deleteVehicle = (id) => {
     return (dispatch, getState) => {
         const vehicle = getState().vehicles.find(v => v.id === id);
-        var addTeef = 0;
-        if (vehicle.weapon) {
-            addTeef = bigGunz.find(g => g.type === vehicle.weapon).cost;
-        }
+        var addTeef = getVehicleWeaponCost(vehicle);
         if (vehicle) {
             dispatch({type: DELETE_VEHICLE, id, vehicleType: vehicle.type, addTeef});
         } else {
@@ -201,14 +206,23 @@ export const buyBike = () => {
 export const buyVehicleWeapon = (vehicleId, weaponType) => {
     return (dispatch, getState) => {
         const vehicle = getState().vehicles.find(v => v.id === vehicleId);
-        var oldGunCost = 0;
-        if (vehicle.weapon) {
-            oldGunCost = bigGunz.find(({type}) => type === vehicle.weapon).cost;
-        }
+        const oldGunCost = getVehicleWeaponCost(vehicle);
         const bigGun = bigGunz.find(({type}) => type === weaponType);
         if (vehicle && bigGun) {
-            console.log(`Buying new weapon: ${weaponType}, +${oldGunCost}, -${bigGun.cost}`);
             dispatch({type: BUY_VEHICLE_WEAPON, vehicleId, weaponType, cost: bigGun.cost, oldGunCost});
+        } else {
+            dispatch({type: ERROR_ASSIGNING, error: ID_NOT_FOUND});
+        }
+    }
+}
+
+export const buyVehicleLinkedWeapon = (vehicleId, weaponType) => {
+    return (dispatch, getState) => {
+        const vehicle = getState().vehicles.find(v => v.id === vehicleId);
+        const oldGunCost = getVehicleWeaponCost(vehicle);
+        const gun = gunz.find(({type}) => type === weaponType);
+        if (vehicle && gun) {
+            dispatch({type: BUY_VEHICLE_LINKED_WEAPON, vehicleId, weaponType, cost: gun.cost * 2, oldGunCost});
         } else {
             dispatch({type: ERROR_ASSIGNING, error: ID_NOT_FOUND});
         }

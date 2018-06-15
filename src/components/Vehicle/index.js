@@ -8,17 +8,27 @@ import EditableName from '../EditableName'
 import { filterAvailableOrks } from '../../helpers'
 import { getVehicleNameByType, vehicleType } from '../../const'
 import { bigGunz } from '../../const/bigGunz'
+import { gunz } from '../../const/gunz'
+
 import {
     deleteVehicle,
     renameVehicle,
     assignDriver,
     buyVehicleWeapon,
+    buyVehicleLinkedWeapon,
 } from '../../actions';
 
 const orkToOption = ork => ({ value: ork.id, label: ork.name});
 const bigGunToOption = bigGun => ({
+    twinLinked: false,
     value: bigGun.type,
-    label: <span>{bigGun.name} <em>{bigGun.comment}</em></span>,
+    label: <span><FormattedMessage id={bigGun.name} /> <em>[ {bigGun.cost} ]</em></span>,
+});
+
+const gunToTwinLinkedOption = gun => ({
+    twinLinked: true,
+    value: gun.type,
+    label: <span><FormattedMessage id='weaponType.twinLinked' /> <FormattedMessage id={gun.name}/> <em>[ {gun.cost * 2} ]</em></span>
 })
 
 const elementStyle = {
@@ -50,6 +60,16 @@ const driverSelectStyles = {
     })
 };
 
+const getVehicleWeaponOption = vehicle => {
+    if (vehicle.weapon) {
+        if (vehicle.linkedWeapon) {
+            return gunToTwinLinkedOption(gunz.find(gun => gun.type === vehicle.weapon));
+        } else {
+            return bigGunToOption(bigGunz.find(bg => bg.type === vehicle.weapon));
+        }
+    }
+};
+
 const Vehicle = ({
     language,
     vehicle,
@@ -59,6 +79,7 @@ const Vehicle = ({
     renameVehicle,
     assignDriver,
     buyVehicleWeapon,
+    buyVehicleLinkedWeapon,
 }) => (
     <IntlProvider locale={language}>
         <li key={`vehicle_${vehicle.id}`}>
@@ -69,7 +90,7 @@ const Vehicle = ({
             />
             {(getVehicleNameByType(vehicle.type) !== vehicle.name) && <div className="unitType">{getVehicleNameByType(vehicle.type)}</div>}
             <div className="driver">
-                <label for={`driver_${vehicle.id}`}><FormattedMessage id='vehicle.driver' /></label>
+                <label htmlFor={`driver_${vehicle.id}`}><FormattedMessage id='vehicle.driver' /></label>
                 <Select
                     id={`driver_${vehicle.id}`}
                     options={availableDrivers}
@@ -79,18 +100,18 @@ const Vehicle = ({
                 />
             </div>
             {(vehicle.type !== vehicleType.bike) && <div className="weapon">
-                <label for={`weapon_${vehicle.id}`}><FormattedMessage id='vehicle.weapon' /></label>
+                <label htmlFor={`weapon_${vehicle.id}`}><FormattedMessage id='vehicle.weapon' /></label>
                 <Select
                     id={`weapon_${vehicle.id}`}
-                    onChange={({value}) => buyVehicleWeapon(vehicle.id, value)}
-                    options={bigGunz.map(bigGunToOption)}
+                    onChange={({twinLinked, value}) => twinLinked ? buyVehicleLinkedWeapon(vehicle.id, value) : buyVehicleWeapon(vehicle.id, value)}
+                    options={[ ...bigGunz.map(bigGunToOption), ...gunz.map(gunToTwinLinkedOption)]}
                     searchable={false}
                     styles={driverSelectStyles}
-                    value={vehicle.weapon && bigGunToOption(bigGunz.find(bg => bg.type === vehicle.weapon))}
+                    value={getVehicleWeaponOption(vehicle)}
                 />
                 {vehicle.weapon && (
                     <div className="gunner">
-                        <label for={`gunner_${vehicle.id}`}><FormattedMessage id='vehicle.gunner' /></label>
+                        <label htmlFor={`gunner_${vehicle.id}`}><FormattedMessage id='vehicle.gunner' /></label>
                         <Select
                             id={`gunner_${vehicle.id}`}
                             onChange={({value}) => assignDriver(vehicle.id, value)}
@@ -101,7 +122,7 @@ const Vehicle = ({
                         />
                     </div>
                 )}
-            </div>})
+            </div>}
             <div className="vehicleActions">
                 <button onClick={() => deleteVehicle(vehicle.id)}><FormattedMessage id='app.delete' /></button>
             </div>
@@ -114,14 +135,18 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     renameVehicle,
     assignDriver,
     buyVehicleWeapon,
+    buyVehicleLinkedWeapon,
   }, dispatch)
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state, props) => {
+    const vehicle = state.vehicles.find(vehicle => vehicle.id === props.id);
+    return {
     language: state.app.language,
-    vehicle: state.vehicles.find(vehicle => vehicle.id === props.id),
-    availableDrivers: filterAvailableOrks(state, state.vehicles.find(vehicle => vehicle.id === props.id).driver).map(orkToOption),
-    availableGunners: filterAvailableOrks(state, state.vehicles.find(vehicle => vehicle.id === props.id).gunner).map(orkToOption),
-});
+    vehicle,
+    availableDrivers: filterAvailableOrks(state, vehicle.driver).map(orkToOption),
+    availableGunners: filterAvailableOrks(state, vehicle.gunner).map(orkToOption),
+    }
+};
 
 export default connect(
     mapStateToProps,

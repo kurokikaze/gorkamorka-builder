@@ -6,6 +6,7 @@ import {
     RENAME_VEHICLE,
     ASSIGN_DRIVER,
     BUY_VEHICLE_WEAPON,
+    BUY_VEHICLE_LINKED_WEAPON,
 } from '../actions';
 
 import {vehicleType, getVehicleNameByType} from '../const';
@@ -33,7 +34,9 @@ const vehiclesReducer = (vehicles = [], action) => {
                 id: getNextId(vehicles),
             }];
         case BUY_VEHICLE_WEAPON:
-            return vehicles.map(vehicle => vehicle.id === action.vehicleId ? {...vehicle, weapon: action.weaponType} : vehicle);
+            return vehicles.map(vehicle => vehicle.id === action.vehicleId ? {...vehicle, weapon: action.weaponType, linkedWeapon: false} : vehicle);
+        case BUY_VEHICLE_LINKED_WEAPON:
+            return vehicles.map(vehicle => vehicle.id === action.vehicleId ? {...vehicle, weapon: action.weaponType, linkedWeapon: true} : vehicle);
         case ASSIGN_DRIVER:
             return vehicles.map(vehicle => vehicle.id === action.vehicleId ? {...vehicle, driver: action.unitId} : vehicle);
         case RENAME_VEHICLE:

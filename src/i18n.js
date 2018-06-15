@@ -30,6 +30,19 @@ const messages = {
         'vehicle.driver': 'Driver',
         'vehicle.weapon': 'Weapon',
         'vehicle.gunner': 'Gunner',
+        // Оружие
+        'weapon.bow': 'Bow',
+        'weapon.crossbow': 'Crossow',
+        'weapon.blunderbuss': 'Blunderbuss',
+        'weapon.shoota': 'Shoota',
+        'weapon.kannon': 'Kannon',
+        // Большие пушки
+        'bigGun.eavyShoota': '`Eavy Shoota',
+        'bigGun.rokkitLauncher': 'Rokkit Launcher',
+        'bigGun.harpoonGun': 'Harpoon Gun',
+        'bigGun.spearGun': 'Spear Gun',
+        'bigGun.scorcha': 'Scorcha',
+        'weaponType.twinLinked': 'Twin-linked',
     },
     ru: {
         'app.creation': 'Создание',
@@ -60,6 +73,19 @@ const messages = {
         'vehicle.driver': 'Водила',
         'vehicle.weapon': 'Оружие',
         'vehicle.gunner': 'Стрелок',
+        // Оружие
+        'weapon.bow': 'Лук',
+        'weapon.crossbow': 'Арбалет',
+        'weapon.blunderbuss': 'Обрез',
+        'weapon.shoota': 'Шута',
+        'weapon.kannon': 'Пушка',
+        // Большие пушки
+        'bigGun.eavyShoota': 'Тяжолая Шута',
+        'bigGun.rokkitLauncher': 'Ракетница',
+        'bigGun.harpoonGun': 'Гарпун',
+        'bigGun.spearGun': 'Копьемёт',
+        'bigGun.scorcha': 'Поджигало',
+        'weaponType.twinLinked': 'Сдвоен.',
     }
 };
 
