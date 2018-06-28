@@ -4,6 +4,7 @@ import {
     BUY_BOY,
     DELETE_VEHICLE,
     BUY_VEHICLE_WEAPON,
+    BUY_VEHICLE_LINKED_WEAPON,
 } from '../../actions';
 
 import {
@@ -128,6 +129,38 @@ describe('Teef Reducer (lol)', () => {
 
         const buyVehicleGunAction = {
             type: BUY_VEHICLE_WEAPON,
+            oldGunCost: gunRefund,
+            cost: gunCost,
+        };
+
+        expect(teefReducer(startingTeef, buyVehicleGunAction)).toEqual(targetTeef);
+    });
+    /*
+        case BUY_VEHICLE_LINKED_WEAPON:
+            return teef + action.oldGunCost - action.cost;    
+    */
+    it('substracts teef when buying linked weapons', () => {
+        const startingTeef = 100;
+        const gunCost = 25;
+        const targetTeef = startingTeef - gunCost;
+
+        const buyVehicleGunAction = {
+            type: BUY_VEHICLE_LINKED_WEAPON,
+            oldGunCost: 0,
+            cost: gunCost,
+        };
+
+        expect(teefReducer(startingTeef, buyVehicleGunAction)).toEqual(targetTeef);
+    });
+
+    it('substracts teef when buying linked weapons with refund', () => {
+        const startingTeef = 100;
+        const gunCost = 25;
+        const gunRefund = 11;
+        const targetTeef = startingTeef - gunCost + gunRefund;
+
+        const buyVehicleGunAction = {
+            type: BUY_VEHICLE_LINKED_WEAPON,
             oldGunCost: gunRefund,
             cost: gunCost,
         };
