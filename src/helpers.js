@@ -84,5 +84,7 @@ export const getVehicleTypeName = type => {
             return 'vehicleType.trak';
         case vehicleType.bike:
             return 'vehicleType.bike';
+        default:
+            return 'vehicleType.buggy';
     }
 }
