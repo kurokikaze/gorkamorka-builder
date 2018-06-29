@@ -53,4 +53,4 @@ class BigGunSelector extends React.Component {
     }
 }
 
-export default UnitSelector;
+export default BigGunSelector;

@@ -13,6 +13,13 @@ export const vehicleType = {
     bike: 'VEHICLE_TYPE_BIKE',
 };
 
+export const itemType = {
+    gun: 'ITEM_TYPE_GUN',
+    armor: 'ITEM_TYPE_ARMOR',
+    tool: 'ITEM_TYPE_TOOL',
+    grenade: 'ITEM_TYPE_GRENADE',
+};
+
 export const orkTypes = [
     unitType.nob,
     unitType.boy,

@@ -20,10 +20,15 @@ export const BUY_SLAVER = 'BUY/UNITS/SLAVER';
 export const BUY_YOOF = 'BUY/UNITS/YOOF';
 export const BUY_GROT = 'BUY/UNITS/GROT';
 
+export const BUY_ITEM = 'BUY/ITEMS/ITEM';
+
 export const DELETE_UNIT = 'DELETE/UNITS/UNIT';
+export const DELETE_ITEM = 'DELETE/ITEMS/ITEM';
 
 export const RENAME_UNIT = 'RENAME/UNITS/UNIT';
 export const RENAME_VEHICLE = 'RENAME/VEHICLES/VEHICLE';
+
+export const TRANSFER_ITEM = 'TRANSFER/ITEMS/ITEM';
 
 export const BUY_BUGGY = 'BUY/VEHICLES/BUGGY';
 export const BUY_TRAK = 'BUY/VEHICLES/TRAK';
@@ -265,6 +270,14 @@ export const assignGunner = (vehicleId, unitId) => {
         }
     }
 }
+
+// Предметы
+
+export const buyItem = (item, unitId) =>
+    dispatch => dispatch({type: BUY_ITEM, item, unitId});
+
+export const deleteItem = (item, unitId) =>
+    dispatch => dispatch({type: DELETE_ITEM, item, unitId});
 
 // Настройка
 

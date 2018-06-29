@@ -59,7 +59,7 @@ const teefReducer = (teef = startingTeef, action) => {
                 default:
                     unitRefund = 0;
                     break;
-            }
+            };
             return teef + unitRefund;
         case DELETE_VEHICLE:
             var vehicleRefund;
@@ -76,7 +76,7 @@ const teefReducer = (teef = startingTeef, action) => {
                 default:
                     vehicleRefund = 0;
                     break;
-            }
+            };
             vehicleRefund += action.addTeef;
 
             return teef + vehicleRefund;

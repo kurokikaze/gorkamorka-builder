@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { IntlProvider, FormattedMessage } from 'react-intl';
 
-import EditableName from '../EditableName'
+import EditableName from '../EditableName';
+import ItemSelector from '../ItemSelector';
+
 import {getUnitNameByType} from '../../const';
 import {
     deleteUnit,
@@ -20,6 +22,7 @@ const Unit = ({
     <li key={`unit_${unit.id}`}>
         <EditableName name={unit.name} onSave={name => renameUnit(unit.id, name)} language={language} />
         {(getUnitNameByType(unit.type) !== unit.name) && <div className="unitType">{getUnitNameByType(unit.type)}</div>}
+        <ItemSelector unit={unit} />
         <button onClick={() => deleteUnit(unit.id)}><FormattedMessage id='app.delete' /></button>
     </li>
 </IntlProvider>
